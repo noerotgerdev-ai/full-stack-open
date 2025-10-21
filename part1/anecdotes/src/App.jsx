@@ -12,18 +12,30 @@ const App = () => {
     "The only way to go fast, is to go well.",
   ];
 
+  const votesArray = new Array(anecdotes.length).fill(0)
+
+  const [votes, setVotes] = useState(votesArray)
+
   const [selected, setSelected] = useState(0);
 
-  const handleClick = () => {
+  const handleNextAnecdoteClick = () => {
     const numberRandom = Math.floor(Math.random() * anecdotes.length);
     setSelected(numberRandom);
   };
 
+  const handleVoteClick = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+    handleNextAnecdoteClick()
+  }
+
   return (
     <div>
       <div>{anecdotes[selected]}</div>
-
-      <button onClick={handleClick}>Next anecdote</button>
+      <div>has {votes[selected]} votes</div>
+      <button onClick={handleVoteClick}>vote</button>
+      <button onClick={handleNextAnecdoteClick}>next anecdote</button>
     </div>
   );
 };
