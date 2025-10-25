@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Filter from "./assets/components/Filter";
+import Persons from "./assets/components/Persons";
+import PersonForm from "./assets/components/PersonForm";
 
 const contacts = [
   { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -28,6 +31,8 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
+    if (newName === "") return;
+    if (newNumber === "") return;
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
       return;
@@ -45,44 +50,25 @@ const App = () => {
     setFilter(event.target.value);
   };
 
-  const filtered = filter
-    ? persons
-        .filter((person) =>
-          person.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
-        )
-        .map((item) => (
-          <li key={item.id}>
-            {item.id}- {item.name}, {item.number}
-          </li>
-        ))
-    : persons.map((item) => (
-        <li key={item.id}>
-          {item.id}- {item.name}, {item.number}
-        </li>
-      ));
-
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
 
-      <div>
-        filter shown with <input onChange={handleFilterChange} />
-      </div>
+      <Filter handleFilterChange={handleFilterChange} />
 
       <h2>Add a new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input onChange={handleNameChange} value={newName} />
-        </div>
-        <div>
-          number: <input onChange={handleNumberChange} value={newNumber} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+
+      <PersonForm
+        handleSubmit={handleSubmit}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        newName={newName}
+        newNumber={newNumber}
+      />
+
       <h2>Numbers</h2>
-      <ul>{filtered}</ul>
+
+      <Persons filter={filter} persons={persons} />
     </div>
   );
 };
