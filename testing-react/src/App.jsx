@@ -1,36 +1,49 @@
-import { useState } from 'react'
-import Note from './components/Note'
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Note from "./components/Note";
 
-const App = (props) => {
-  const [notes, setNotes] = useState(props.notes)
-  const [newNote, setNewNote] = useState('')
-  const [showAll, setShowAll] = useState(true)
+const App = () => {
+  const [notes, setNotes] = useState([]);
+  const [newNote, setNewNote] = useState("");
+  const [showAll, setShowAll] = useState(true);
+
+  const hook = () => {
+    console.log("effect");
+    axios.get("http://localhost:3001/notes").then((res) => {
+      console.log("promise fulfilled");
+      setNotes(res.data);
+    });
+  };
+
+  useEffect(hook, []);
+
+  console.log("render", notes.length, "notes");
 
   const addNote = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const noteObject = {
       content: newNote,
       important: Math.random() > 0.5,
       id: String(notes.length + 1),
+    };
+    if (noteObject.content) {
+      setNotes(notes.concat(noteObject));
+      setNewNote("");
     }
-    if(noteObject.content) {
-    setNotes(notes.concat(noteObject))
-    setNewNote('')
-    }
-  }
+  };
 
   const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-  }
+    setNewNote(event.target.value);
+  };
 
-  const notesToShow = showAll ? notes : notes.filter((note) => note.important)
+  const notesToShow = showAll ? notes : notes.filter((note) => note.important);
 
   return (
     <div>
       <h1>Notes</h1>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
+          show {showAll ? "important" : "all"}
         </button>
       </div>
       <ul>
@@ -39,11 +52,15 @@ const App = (props) => {
         ))}
       </ul>
       <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} placeholder='New note' />
+        <input
+          value={newNote}
+          onChange={handleNoteChange}
+          placeholder="New note"
+        />
         <button type="submit">save</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
