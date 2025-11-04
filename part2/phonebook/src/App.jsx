@@ -41,14 +41,30 @@ const App = () => {
       alert(`${newNumber} is empty`);
       return;
     }
-    if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
     if (persons.find((person) => person.number === newNumber)) {
       alert(`${newNumber} is already added to phonebook`);
       return;
     }
+
+    if (persons.find((person) => person.name === newName)) {
+      if (
+        confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        console.log("change the number");
+        const personExist = persons.find((person) => person.name === newName);
+        const updateContact = { ...personExist, number: newNumber };
+        contacts
+          .update(updateContact.id, updateContact)
+          .then((res) => setPersons(persons.map(item => item.name === newName ? res : item)));
+        setNewName("");
+        setNewNumber("");
+        console.log(`Number changed by ${newNumber}.`);
+      }
+      return;
+    }
+
     contacts
       .create(addContact)
       .then((res) => setPersons((prev) => [...prev, res]));
