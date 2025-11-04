@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Filter from "./assets/components/Filter";
 import Persons from "./assets/components/Persons";
 import PersonForm from "./assets/components/PersonForm";
-import axios from "axios";
+import contacts from "./services/contacts";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +11,7 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then((res) => setPersons(res.data));
+    contacts.getAll().then((res) => setPersons(res));
   }, []);
 
   const handleNameChange = (event) => {
@@ -31,8 +29,14 @@ const App = () => {
       number: newNumber,
       id: persons.length + 1,
     };
-    if (newName === "") return;
-    if (newNumber === "") return;
+    if (newName === "") {
+      alert(`${newName} is empty`);
+      return;
+    }
+    if (newNumber === "") {
+      alert(`${newNumber} is empty`);
+      return;
+    }
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
       return;
@@ -41,7 +45,9 @@ const App = () => {
       alert(`${newNumber} is already added to phonebook`);
       return;
     }
-    setPersons([...persons, addContact]);
+    contacts
+      .create(addContact)
+      .then((res) => setPersons((prev) => [...prev, res]));
     setNewName("");
     setNewNumber("");
   };
