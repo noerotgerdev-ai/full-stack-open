@@ -4,6 +4,7 @@ import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import contacts from "./services/contacts";
 import Notification from "./components/Notification";
+import ErrorNotification from "./components/ErrorNotification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [notification, setNotification] = useState(null);
+  const [errorNotification, setErrorNotification] = useState(null);
 
   useEffect(() => {
     contacts
@@ -29,10 +31,9 @@ const App = () => {
     setNewNumber(event.target.value);
   };
 
-  const setNull = (time) =>
-    setTimeout(() => {
-      setNotification(null);
-    }, time);
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -70,10 +71,14 @@ const App = () => {
             setNewName("");
             setNewNumber("");
             setNotification(`Succes!! ${newName} number was updated.`);
-            setNull(5000);
+            setTimeout(() => setNotification(null), 5000);
           })
           .catch((error) => {
-            console.log(error);
+            console.log(error.message);
+            setErrorNotification(
+              `Information of ${newName} has already been removed from server.`
+            );
+            setTimeout(() => setErrorNotification(null), 5000);
           });
       }
       return;
@@ -86,15 +91,11 @@ const App = () => {
         setNewName("");
         setNewNumber("");
         setNotification(`Succes!! ${newName} was added.`);
-        setNull(5000);
+        setTimeout(() => setNotification(null), 5000);
       })
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
   };
 
   const handleDelete = (id) => {
@@ -111,7 +112,7 @@ const App = () => {
         const newPersons = persons.filter((item) => item.id !== id);
         setPersons(newPersons);
         setNotification(`Succes!! ${personDelete.name} number was deleted.`);
-        setNull(5000);
+        setTimeout(() => setNotification(null), 5000);
       })
       .catch((error) => {
         console.log(error);
@@ -123,6 +124,7 @@ const App = () => {
       <h1>Phonebook</h1>
 
       <Notification message={notification} />
+      <ErrorNotification message={errorNotification} />
 
       <Filter handleFilterChange={handleFilterChange} />
 
