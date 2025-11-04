@@ -78,7 +78,10 @@ const App = () => {
             setErrorNotification(
               `Information of ${newName} has already been removed from server.`
             );
-            setTimeout(() => setErrorNotification(null), 5000);
+            setTimeout(() => {
+              setErrorNotification(null);
+              location.reload();
+            }, 5000);
           });
       }
       return;
