@@ -3,32 +3,42 @@
     {
       "name": "Arto Hellas",
       "number": "040-123456",
-      "id": 1
+      "id": "1"
     },
     {
       "name": "Ada Lovelace",
       "number": "39-44-5323523",
-      "id": 2
+      "id": "2"
     },
     {
       "name": "Dan Abramov",
       "number": "12-43-234345",
-      "id": 3
+      "id": "3"
     },
     {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
+      "id": "4",
+      "name": "Leo Messi",
+      "number": "1010101010"
     },
     {
-      "id": 5,
-      "name": "Contacto extra 1",
-      "number": "123564"
+      "id": "5",
+      "name": "Cristiano Ronaldo",
+      "number": "7777777777"
     },
     {
-      "id": 6,
-      "name": "Contacto extra 2",
-      "number": "1235647"
+      "id": "6",
+      "name": "David Bisbal",
+      "number": "68456217"
+    },
+    {
+      "id": 7,
+      "name": "Ale Sanz",
+      "number": "135476846"
+    },
+    {
+      "id": 8,
+      "name": "Julito Iglesias",
+      "number": "777777"
     }
   ]
 }

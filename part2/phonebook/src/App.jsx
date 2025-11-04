@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import Filter from "./assets/components/Filter";
-import Persons from "./assets/components/Persons";
-import PersonForm from "./assets/components/PersonForm";
+import Filter from "./components/Filter";
+import Persons from "./components/Persons";
+import PersonForm from "./components/PersonForm";
 import contacts from "./services/contacts";
 
 const App = () => {
@@ -11,7 +11,12 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    contacts.getAll().then((res) => setPersons(res));
+    contacts
+      .getAll()
+      .then((res) => setPersons(res))
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleNameChange = (event) => {
@@ -27,7 +32,6 @@ const App = () => {
     const addContact = {
       name: newName,
       number: newNumber,
-      id: persons.length + 1,
     };
     if (newName === "") {
       alert(`${newName} is empty`);
@@ -56,6 +60,26 @@ const App = () => {
     setFilter(event.target.value);
   };
 
+  const handleDelete = (id) => {
+    const personDelete = persons.find((item) => item.id === id);
+    if (!personDelete) {
+      alert("The person dont't exists");
+      return;
+    }
+    if (!confirm(`Do you want delete ${personDelete.name}`)) return;
+
+    contacts
+      .deleteOne(id)
+      .then(() => {
+        const newPersons = persons.filter((item) => item.id !== id);
+        setPersons(newPersons);
+        alert(`User ${personDelete.name} was deleted.`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -74,7 +98,7 @@ const App = () => {
 
       <h2>Numbers</h2>
 
-      <Persons filter={filter} persons={persons} />
+      <Persons filter={filter} persons={persons} handleDelete={handleDelete} />
     </div>
   );
 };
