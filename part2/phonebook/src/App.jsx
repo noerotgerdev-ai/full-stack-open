@@ -3,12 +3,14 @@ import Filter from "./components/Filter";
 import Persons from "./components/Persons";
 import PersonForm from "./components/PersonForm";
 import contacts from "./services/contacts";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     contacts
@@ -26,6 +28,11 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
   };
+
+  const setNull = (time) =>
+    setTimeout(() => {
+      setNotification(null);
+    }, time);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -62,6 +69,8 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+            setNotification(`Succes!! ${newName} number was updated.`);
+            setNull(5000);
           })
           .catch((error) => {
             console.log(error);
@@ -76,6 +85,8 @@ const App = () => {
         setPersons((prev) => [...prev, res]);
         setNewName("");
         setNewNumber("");
+        setNotification(`Succes!! ${newName} was added.`);
+        setNull(5000);
       })
       .catch((error) => {
         console.log(error);
@@ -99,7 +110,8 @@ const App = () => {
       .then(() => {
         const newPersons = persons.filter((item) => item.id !== id);
         setPersons(newPersons);
-        alert(`User ${personDelete.name} was deleted.`);
+        setNotification(`Succes!! ${personDelete.name} number was deleted.`);
+        setNull(5000);
       })
       .catch((error) => {
         console.log(error);
@@ -109,6 +121,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+
+      <Notification message={notification} />
 
       <Filter handleFilterChange={handleFilterChange} />
 

@@ -12,28 +12,23 @@
     },
     {
       "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "number": "545454687",
       "id": "3"
     },
     {
       "id": "4",
       "name": "Leo Messi",
-      "number": "1010101010"
+      "number": "10"
     },
     {
       "id": "5",
       "name": "Cristiano Ronaldo",
-      "number": "7777777777"
+      "number": "777"
     },
     {
       "id": "6",
       "name": "David Bisbal",
       "number": "555555"
-    },
-    {
-      "id": "7",
-      "name": "Ale Sanz",
-      "number": "654"
     },
     {
       "id": "8",
@@ -44,6 +39,16 @@
       "id": "3915",
       "name": "Tom & Jerry",
       "number": "56565656"
+    },
+    {
+      "id": "cf84",
+      "name": "John Gonzalez",
+      "number": "666444555"
+    },
+    {
+      "id": "7ac1",
+      "name": "Ricky Martin",
+      "number": "4569897"
     }
   ]
 }
