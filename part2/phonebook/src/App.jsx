@@ -52,24 +52,34 @@ const App = () => {
           `${newName} is already added to phonebook, replace the old number with a new one?`
         )
       ) {
-        console.log("change the number");
         const personExist = persons.find((person) => person.name === newName);
         const updateContact = { ...personExist, number: newNumber };
         contacts
           .update(updateContact.id, updateContact)
-          .then((res) => setPersons(persons.map(item => item.name === newName ? res : item)));
-        setNewName("");
-        setNewNumber("");
-        console.log(`Number changed by ${newNumber}.`);
+          .then((res) => {
+            setPersons(
+              persons.map((item) => (item.name === newName ? res : item))
+            );
+            setNewName("");
+            setNewNumber("");
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
       return;
     }
 
     contacts
       .create(addContact)
-      .then((res) => setPersons((prev) => [...prev, res]));
-    setNewName("");
-    setNewNumber("");
+      .then((res) => {
+        setPersons((prev) => [...prev, res]);
+        setNewName("");
+        setNewNumber("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleFilterChange = (event) => {
