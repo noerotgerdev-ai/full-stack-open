@@ -20,6 +20,10 @@ function App() {
     setFilter(event.target.value);
   };
 
+  const handleClick = (name) => {
+    setFilter(name)
+  }
+
   const filteredCountries = countries.filter((item) => {
     return item.name.common.toLowerCase().includes(filter.toLowerCase());
   });
@@ -28,7 +32,7 @@ function App() {
   return (
     <>
       <FindForm value={filter} handleChange={handleChange} />
-      <Countries allCountries={filteredCountries} />
+      <Countries allCountries={filteredCountries} handleClick={handleClick} />
     </>
   );
 }

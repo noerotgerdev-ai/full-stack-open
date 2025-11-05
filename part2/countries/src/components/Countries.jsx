@@ -1,6 +1,6 @@
 import Country from "./Country";
 
-const Countries = ({ allCountries }) => {
+const Countries = ({ allCountries, handleClick }) => {
   if (allCountries.length > 10)
     return <div>Too many matches, specify another filter</div>;
 
@@ -8,16 +8,16 @@ const Countries = ({ allCountries }) => {
     return (
       <div>
         {allCountries.map((item) => (
-          <h2 key={item.name.official}>{item.name.common}</h2>
+          <div key={item.name.official}>
+            {item.name.common} <button onClick={() => handleClick(item.name.common)}>Show</button>
+          </div>
         ))}
       </div>
     );
   }
 
-  if(allCountries.length === 1){
-    return(
-        <Country country={allCountries[0]} />
-    )
+  if (allCountries.length === 1) {
+    return <Country country={allCountries[0]} />;
   }
 };
 export default Countries;
