@@ -55,37 +55,43 @@ const App = () => {
     }
 
     if (persons.find((person) => person.name === newName)) {
-      if (
-        confirm(
-          `${newName} is already added to phonebook, replace the old number with a new one?`
-        )
-      ) {
-        const personExist = persons.find((person) => person.name === newName);
-        const updateContact = { ...personExist, number: newNumber };
-        contacts
-          .update(updateContact.id, updateContact)
-          .then((res) => {
-            setPersons(
-              persons.map((item) => (item.name === newName ? res : item))
-            );
-            setNewName("");
-            setNewNumber("");
-            setNotification(`Succes!! ${newName} number was updated.`);
-            setTimeout(() => setNotification(null), 5000);
-          })
-          .catch((error) => {
-            console.log(error.message);
-            setErrorNotification(
-              `Information of ${newName} has already been removed from server.`
-            );
-            setTimeout(() => {
-              setErrorNotification(null);
-              location.reload();
-            }, 5000);
-          });
-      }
+      alert(`${newName} is already added to phonebook`);
       return;
     }
+
+    // This is the code for update number
+    // if (persons.find((person) => person.name === newName)) {
+    //   if (
+    //     confirm(
+    //       `${newName} is already added to phonebook, replace the old number with a new one?`
+    //     )
+    //   ) {
+    //     const personExist = persons.find((person) => person.name === newName);
+    //     const updateContact = { ...personExist, number: newNumber };
+    //     contacts
+    //       .update(updateContact.id, updateContact)
+    //       .then((res) => {
+    //         setPersons(
+    //           persons.map((item) => (item.name === newName ? res : item))
+    //         );
+    //         setNewName("");
+    //         setNewNumber("");
+    //         setNotification(`Succes!! ${newName} number was updated.`);
+    //         setTimeout(() => setNotification(null), 5000);
+    //       })
+    //       .catch((error) => {
+    //         console.log(error.message);
+    //         setErrorNotification(
+    //           `Information of ${newName} has already been removed from server.`
+    //         );
+    //         setTimeout(() => {
+    //           setErrorNotification(null);
+    //           location.reload();
+    //         }, 5000);
+    //       });
+    //   }
+    //   return;
+    // }
 
     contacts
       .create(addContact)
@@ -97,7 +103,12 @@ const App = () => {
         setTimeout(() => setNotification(null), 5000);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
+        setErrorNotification(`Some error happens creating the contact`);
+        setTimeout(() => {
+          setErrorNotification(null);
+          location.reload();
+        }, 5000);
       });
   };
 
