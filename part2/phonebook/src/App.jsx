@@ -42,11 +42,11 @@ const App = () => {
       number: newNumber,
     };
     if (newName === "") {
-      alert(`${newName} is empty`);
+      alert(`Name is empty`);
       return;
     }
     if (newNumber === "") {
-      alert(`${newNumber} is empty`);
+      alert(`Number is empty`);
       return;
     }
     if (persons.find((person) => person.number === newNumber)) {
